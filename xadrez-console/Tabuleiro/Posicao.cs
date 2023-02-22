@@ -1,4 +1,4 @@
-﻿namespace Tabuleiro
+﻿namespace xadrez_console.Tabuleiro
 {
     public class Posicao
     {
