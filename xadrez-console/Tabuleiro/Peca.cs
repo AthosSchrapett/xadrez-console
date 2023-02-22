@@ -7,9 +7,9 @@ namespace xadrez_console.Tabuleiro
         public Posicao Posicao { get; set; }
         public Cor Cor { get; protected set; }
         public int QteMovimentos { get; set; }
-        public Tabuleiro Tab { get; set; }
+        public TabuleiroTab Tab { get; set; }
 
-        public Peca(Posicao posicao, Cor cor, Tabuleiro tab)
+        public Peca(Posicao posicao, Cor cor, TabuleiroTab tab)
         {
             Posicao = posicao;
             Cor = cor;
