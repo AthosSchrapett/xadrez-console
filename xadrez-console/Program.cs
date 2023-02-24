@@ -13,10 +13,7 @@ try
         try
         {
             Console.Clear();
-            Tela.ImprimirTabuleiro(partidaDeXadrez.Tab);
-            Console.WriteLine();
-            Console.WriteLine($"Turno: {partidaDeXadrez.Turno}");
-            Console.WriteLine($"Aguardando Jogada: {partidaDeXadrez.JogadorAtual}");
+            Tela.ImprimirPartida(partidaDeXadrez);
 
             Console.Write("Origem: ");
             Posicao origem = Tela.LerPosicaoXadrez().ToPosicao();
