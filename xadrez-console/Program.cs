@@ -37,7 +37,8 @@ try
         }
     }
 
-    Tela.ImprimirTabuleiro(partidaDeXadrez.Tab);
+    Console.Clear();
+    Tela.ImprimirPartida(partidaDeXadrez);
 }
 catch (TabuleiroException e)
 {

@@ -6,6 +6,30 @@ namespace xadrez_console
 {
     public class Tela
     {
+        public static void ImprimirPartida(PartidaDeXadrez partidaDeXadrez)
+        {
+            ImprimirTabuleiro(partidaDeXadrez.Tab);
+            Console.WriteLine();
+            ImprimirPecasCapturadas(partidaDeXadrez);
+            Console.WriteLine();
+            Console.WriteLine($"Turno: {partidaDeXadrez.Turno}");
+
+            if (!partidaDeXadrez.Terminada)
+            {
+                Console.WriteLine($"Aguardando Jogada: {partidaDeXadrez.JogadorAtual}");
+
+                if (partidaDeXadrez.Xeque)
+                {
+                    Console.WriteLine("XEQUE!");
+                }
+            }
+            else
+            {
+                Console.WriteLine("XEQUEMATE!");
+                Console.WriteLine($"Vencedor: {partidaDeXadrez.JogadorAtual}");
+            }
+        }
+
         public static void ImprimirTabuleiro(TabuleiroTab tab)
         {
             for (int linha = 0; linha < tab.Linhas; linha++)
@@ -79,21 +103,6 @@ namespace xadrez_console
                 }
 
                 Console.Write(" ");
-            }
-        }
-
-        public static void ImprimirPartida(PartidaDeXadrez partidaDeXadrez)
-        {
-            ImprimirTabuleiro(partidaDeXadrez.Tab);
-            Console.WriteLine();
-            ImprimirPecasCapturadas(partidaDeXadrez);
-            Console.WriteLine();
-            Console.WriteLine($"Turno: {partidaDeXadrez.Turno}");
-            Console.WriteLine($"Aguardando Jogada: {partidaDeXadrez.JogadorAtual}");
-
-            if (partidaDeXadrez.Xeque)
-            {
-                Console.WriteLine("XEQUE!");
             }
         }
 
