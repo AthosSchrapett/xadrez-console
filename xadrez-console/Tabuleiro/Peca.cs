@@ -17,7 +17,7 @@ namespace xadrez_console.Tabuleiro
             QteMovimentos = 0;
         }
 
-        public bool PodeMoverPara(Posicao posicao)
+        public bool MovimentoPossivel(Posicao posicao)
         {
             return MovimentosPossíveis()[posicao.Linha, posicao.Coluna];
         }
