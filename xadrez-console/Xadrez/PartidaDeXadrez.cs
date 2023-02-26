@@ -13,7 +13,7 @@ namespace xadrez_console.Xadrez
         private HashSet<Peca> Pecas;
         private HashSet<Peca> Capturadas;
         public bool Xeque { get; private set; }
-        public Peca VulneravelEnPassant { get; private set; }
+        public Peca? VulneravelEnPassant { get; private set; }
 
         public PartidaDeXadrez()
         {
@@ -78,6 +78,17 @@ namespace xadrez_console.Xadrez
                 Turno++;
                 MudaJogador();
             }
+
+            Peca peca = Tab.Peca(destino);
+
+            if(peca is Peao && (destino.Linha == origem.Linha - 2 || destino.Linha == origem.Linha + 2))
+            {
+                VulneravelEnPassant = peca;
+            }
+            else
+            {
+                VulneravelEnPassant = null;
+            }
         }
 
         private void DesfazerMovimento(Posicao origem, Posicao destino, Peca pecaCapturada)
@@ -113,6 +124,25 @@ namespace xadrez_console.Xadrez
 
                 torre.DecrementarQteMovimentos();
                 Tab.ColocarPeca(torre, origemTorre);
+            }
+
+            if(peca is Peao)
+            {
+                if(origem.Coluna != destino.Coluna && pecaCapturada == VulneravelEnPassant)
+                {
+                    Peca peao = Tab.RetirarPeca(destino);
+                    Posicao posicaoPeao;
+
+                    if(peca.Cor == Cor.Branca)
+                    {
+                        posicaoPeao = new Posicao(3, destino.Coluna);
+                    }
+                    else
+                    {
+                        posicaoPeao = new Posicao(4, destino.Coluna);
+                    }
+                    Tab.ColocarPeca(peao, posicaoPeao);
+                }
             }
         }
 
@@ -291,8 +321,8 @@ namespace xadrez_console.Xadrez
 
             if(peca is Rei && destino.Coluna == origem.Coluna + 2)
             {
-                Posicao origemTorre = new Posicao(origem.Linha, origem.Coluna + 3);
-                Posicao destinoTorre = new Posicao(origem.Linha, origem.Coluna + 1);
+                Posicao origemTorre = new(origem.Linha, origem.Coluna + 3);
+                Posicao destinoTorre = new(origem.Linha, origem.Coluna + 1);
 
                 Peca torre = Tab.RetirarPeca(origemTorre);
 
@@ -302,13 +332,33 @@ namespace xadrez_console.Xadrez
 
             if (peca is Rei && destino.Coluna == origem.Coluna - 2)
             {
-                Posicao origemTorre = new Posicao(origem.Linha, origem.Coluna - 4);
-                Posicao destinoTorre = new Posicao(origem.Linha, origem.Coluna - 1);
+                Posicao origemTorre = new(origem.Linha, origem.Coluna - 4);
+                Posicao destinoTorre = new(origem.Linha, origem.Coluna - 1);
 
                 Peca torre = Tab.RetirarPeca(origemTorre);
 
                 torre.IncrementarQteMovimentos();
                 Tab.ColocarPeca(torre, destinoTorre);
+            }
+
+            if(peca is Peao)
+            {
+                if(origem.Coluna != destino.Coluna && pecaCapturada == null)
+                {
+                    Posicao posicaoPeao;
+
+                    if(peca.Cor == Cor.Branca)
+                    {
+                        posicaoPeao = new(destino.Linha + 1, destino.Coluna);
+                    }
+                    else
+                    {
+                        posicaoPeao = new(destino.Linha - 1, destino.Coluna);
+                    }
+
+                    pecaCapturada = Tab.RetirarPeca(posicaoPeao);
+                    Capturadas.Add(pecaCapturada);
+                }
             }
 
             return pecaCapturada;
